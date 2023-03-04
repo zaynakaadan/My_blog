@@ -11,7 +11,7 @@ class Router {
     }
 
     public function show() {
-        echo $this->url;
+         $this->url;
     }
 
     public function get (string $path, string $action)

@@ -1,1 +1,2 @@
-<h1>Post n°<?= $params['id'] ?></h1>
+<h1> <?= $params['post']->name ?></h1>
+<p> <?= $params['post']->content ?></p>

@@ -23,7 +23,7 @@ class Route {
          $pathToMatch = "#^$path$#";
 
          if(preg_match($pathToMatch, $url, $this->matches)) {
-            print_r($this->matches);
+            ($this->matches);
             return true;
          } else {
             return false;
