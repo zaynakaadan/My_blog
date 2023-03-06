@@ -4,9 +4,9 @@
     <div class="card mb-3">
        <div class="card-body">
          <h2><?= $post->name ?></h2>
-         <small><?= $post->create_time ?></small>
-         <p><?= $post->content ?></p>
-         <a href="/posts/<?= $post->id ?>" class="btn btn-primary">Lire_plus</a>
+         <small>Publié le <?= $post->getCreateTime()?></small>
+         <p><?= $post->getExcerpt() ?></p>
+         <?= $post->getButton() ?>
        </div>
     </div>
 <?php endforeach ?>
