@@ -10,7 +10,7 @@ class Post extends Model
 
    public function getCreateTime(): string
    {
-     return (new DateTime($this->create_time))->format('d/m/Y à H:m');      
+     return (new DateTime($this->create_time))->format('d/m/Y à H:i');      
    }
 
    public function getExcerpt(): string 
@@ -31,6 +31,6 @@ HTML;
          SELECT t.* FROM tags t
          INNER JOIN post_tag pt ON pt.tag_id = t.id
          WHERE pt.post_id = ?
-       ", $this->id);
+       ", [$this->id]);
     }
 }

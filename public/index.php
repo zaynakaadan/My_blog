@@ -20,8 +20,13 @@ $router->get( '/posts', 'App\Controllers\BlogController@index');
 $router->get( '/posts/:id', 'App\Controllers\BlogController@show');
 $router->get( '/tags/:id', 'App\Controllers\BlogController@tag');
 
+$router->get( '/admin/posts', 'App\Controllers\Admin\PostController@index');
+$router->post( '/admin/posts/delete/:id', 'App\Controllers\Admin\PostController@destroy');
+$router->get( '/admin/posts/edit/:id', 'App\Controllers\Admin\PostController@edit');
+$router->post( '/admin/posts/edit/:id', 'App\Controllers\Admin\PostController@update');
+
 try {
-$router->run();
+    $router->run();
 } catch (NotFoundException $e) {
     return $e->error404();
 }

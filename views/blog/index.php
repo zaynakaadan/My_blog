@@ -6,7 +6,8 @@
          <h2><?= $post->name ?></h2>
          <div>
           <?php foreach ($post->getTags() as $tag): ?> 
-             <span class="badge bg-secondary "><a href="/tags/<?= $tag->id ?>" class="text-white"><?= $tag->name ?></a></span>
+             <span class="badge bg-secondary "><a href="/tags/<?= $tag->id ?>" class="text-white">
+             <?= $tag->name ?></a></span>
            <?php endforeach ?>  
          </div>
          <small class="text-info">Publié le <?= $post->getCreateTime() ?></small>

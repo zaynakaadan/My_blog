@@ -17,19 +17,19 @@ class BlogController extends Controller {
         
         return $this->view('blog.index', compact('posts'));
     }
-    public function show(int $id)
-    {
-        $post = (new Post($this->getDB()))->findById($id);
-     
-        
-        return $this->view('blog.show', compact('post'));
 
+    public function show(int $id)
+    {       
+        $post = (new Post($this->getDB()))->findById($id);
+          
+        return $this->view('blog.show', compact('post'));
     }
 
     public function tag(int $id) 
     {
         $tag = (new Tag($this->getDB()))->findById($id);
-      return $this->view('blog.tag', compact('tag'));
+
+        return $this->view('blog.tag', compact('tag'));
     }
 
 
