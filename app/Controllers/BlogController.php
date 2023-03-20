@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Comment;
 
 class BlogController extends Controller {
     public function welcome()
@@ -32,5 +33,12 @@ class BlogController extends Controller {
         return $this->view('blog.tag', compact('tag'));
     }
 
+
+    public function comment(int $id) 
+    {
+        $comment = (new Comment($this->getDB()))->findById($id);
+
+        return $this->view('blog.show', compact('comment'));
+    }
 
 }
