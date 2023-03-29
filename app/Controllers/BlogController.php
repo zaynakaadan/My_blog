@@ -6,24 +6,27 @@ use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Comment;
 
+
 class BlogController extends Controller {
-    public function welcome()
+    public function home()
     {
-        return $this->view('blog.welcome');
+        return $this->view('blog.home');
     }
-    public function index()
+    public function posts()
     {
         $post = new Post($this->getDB());
         $posts = $post->all();
         
-        return $this->view('blog.index', compact('posts'));
+        return $this->view('blog.posts', compact('posts'));
     }
 
-    public function show(int $id)
+    public function showPost(int $id)
     {       
         $post = (new Post($this->getDB()))->findById($id);
-          
-        return $this->view('blog.show', compact('post'));
+        $comment = new Comment($this->getDB());
+        $comments = $comment->getAllCommentsForPost($id);
+       
+       return $this->view('blog.show_post', array('post' => $post, 'comments' => $comments));
     }
 
     public function tag(int $id) 
@@ -34,11 +37,6 @@ class BlogController extends Controller {
     }
 
 
-    public function comment(int $id) 
-    {
-        $comment = (new Comment($this->getDB()))->findById($id);
-
-        return $this->view('blog.show', compact('comment'));
-    }
+    
 
 }

@@ -8,12 +8,12 @@ use App\Models\Post;
 use App\Controllers\Controller;
 
 class PostController extends Controller  {
-    public function index()
+    public function admin_posts()
     {
         
       $this->isAdmin();
       $posts = (new Post($this->getDB()))->all();
-      return $this->view('admin.post.index', compact('posts'));
+      return $this->view('admin.post.admin_posts', compact('posts'));
     }
 
     public function create() 

@@ -1,10 +1,10 @@
-<h1>Administration des articles</h1>
+<h1>Administration des posts</h1>
 
 <?php if(isset($_GET['success'])): ?>
     <div class="alert alert-success">Vous êtes connecté!</div>
 <?php endif ?>
 
-<a href="/admin/posts/create" class="btn btn-success my-3">Créer un nouvel article</a>
+<a href="/admin/posts/create" class="btn btn-success my-3">Créer un nouveau post</a>
 <table class="table">
   <thead>
     <tr>
@@ -21,9 +21,9 @@
            <td><?= $post->name ?></td>
            <td><?= $post->getCreateTime() ?></td>
            <td>
-            <a href="/admin/posts/edit/<?= $post->id ?>" class="btn btn-warning">Modifier</a>
+            <a href="/admin/posts/edit/<?= $post->id ?>" class="btn btn-warning li_f">Modifier</a>
             <form action="/admin/posts/delete/<?= $post->id ?>" method="POST" class="d-inline">
-              <button type="submit" class="btn btn-danger">Supprimer</button>
+              <button type="submit" class="btn btn-danger li_f">Supprimer</button>
               </form>
            </td>
         </tr>

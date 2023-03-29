@@ -3,8 +3,8 @@
 <h1>Se connecter</h1>
 <form action="/login" method="POST">
    <div class="form-group mt-3">
-       <label class="mb-1" for="username">Nom d'utilisateur</label>
-        <input type="text" class="form-control" name="username" id="username" >
+       <label class="mb-1" for="email">Adresse email</label>
+        <input type="text" class="form-control" name="email" id="email" >
     </div>
     <div class="form-group mt-3">
        <label class="mb-1" for="password">Mot de passe</label>

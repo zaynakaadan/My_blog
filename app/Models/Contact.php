@@ -2,9 +2,9 @@
 
 namespace App\models;
 
-class User extends Model {
+class Contact extends Model {
 
-    protected $table = 'users';
+    protected $table = 'contacts';
 
     public function getByEmail(string $email)
     {

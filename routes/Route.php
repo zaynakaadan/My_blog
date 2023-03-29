@@ -6,7 +6,6 @@ use Database\DBConnection;
 
 class Route {
 
-
     public $path;
     public $action;
     public $matches = [];
@@ -29,7 +28,6 @@ class Route {
             return false;
          }
     }
-
     public function execute()
     {
       $params = explode('@', $this->action);

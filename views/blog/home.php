@@ -1,8 +1,8 @@
-<div class="row pt-5">
-   <div class="col-lg-2 text-center">
+<div class="row py-5 d-flex align-items-center">
+   <div class="col-md-3 text-center">
       <img src="../public/img/myAvatar.png" class="rounded-circle" alt="Avatar">
    </div>
-   <div class="col-lg-10 text-center">
+   <div class="col-md-9 text-center">
       <h2>zayna kaadan<br> étudiante développeur PHP / Symfony chez OpenClassrooms</h2>
    </div>
 </div>
