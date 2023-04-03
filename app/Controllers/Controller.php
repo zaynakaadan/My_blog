@@ -32,7 +32,10 @@ abstract class Controller {
 
     protected function isAdmin()
     {
-        if (isset($_SESSION['auth']) && $_SESSION['is_admin'] == 1) {
+        $auth = htmlspecialchars($_SESSION['auth']);
+        $is_admin = htmlspecialchars($_SESSION['is_admin']);
+
+        if (isset($auth) && $is_admin == 1) {
             return true;
         } else {
            return header('Location: /posts');
