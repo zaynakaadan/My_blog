@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Controllers\Controller;
 
 class PostController extends Controller  {
@@ -19,8 +20,9 @@ class PostController extends Controller  {
     public function create() 
     { 
         $this->isAdmin();
+        $user_id = $_SESSION['user_id'];
        $tags = (new Tag($this->getDB()))->all(); 
-       return $this->view('admin.post.form', compact('tags'));
+       return $this->view('admin.post.add_post', compact('user_id', 'tags'));
     }
 
     public function createPost()
@@ -60,6 +62,14 @@ class PostController extends Controller  {
         $result = $post->destroy($id);
 
         if ($result) {
+            $comment = new Comment($this->getDB());
+            $comments = $comment->getAllCommentsForPost($id);
+
+            foreach($comments as $comment)
+            {
+                $comment->destroy($comment->id);
+            }
+            
             return header('Location: /admin/posts');
         }
     }
@@ -69,7 +79,8 @@ class PostController extends Controller  {
         $this->isAdmin();
         $post = (new Post($this->getDB()))->findById($id);
         $tags = (new Tag($this->getDB()))->all();
-        return $this->view('admin.post.form', compact('post','tags'));
+        $user_id = $_SESSION['user_id'];
+        return $this->view('admin.post.form', compact('user_id','post','tags'));
      }
 
 }

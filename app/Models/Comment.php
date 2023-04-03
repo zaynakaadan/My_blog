@@ -7,6 +7,8 @@ use DateTime;
 class Comment extends Model
 {
    protected $table = 'comments';
+   
+  
 
    public function getAllCommentsForPost(int $id): array
    {
@@ -18,5 +20,10 @@ class Comment extends Model
      return  (new DateTime($this->create_time))->format('d/m/Y à H:i');      
    }
 
-   
+   // Récupérer l'auteur du commtaire :
+   public function getUserComment(int $id)
+    {
+        return $this->query("SELECT * FROM users WHERE id = ?", [$id], true);
+        
+    }
 }

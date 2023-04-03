@@ -18,7 +18,7 @@
     <?php foreach($params['posts'] as $post): ?>
         <tr>
            <th scope="row"><?= $post->id ?></th>
-           <td><?= $post->name ?></td>
+           <td><?= $post->title ?></td>
            <td><?= $post->getCreateTime() ?></td>
            <td>
             <a href="/admin/posts/edit/<?= $post->id ?>" class="btn btn-warning li_f">Modifier</a>

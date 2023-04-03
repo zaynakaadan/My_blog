@@ -11,4 +11,9 @@ class User extends Model {
         return $this->query("SELECT * FROM {$this->table} WHERE email = ?", [$email], true);
         
     }
+    public function getById(int $id)
+    {
+        return $this->query("SELECT * FROM {$this->table} WHERE id = ?", [$id], true);
+        
+    }
 } 

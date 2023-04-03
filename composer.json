@@ -13,5 +13,7 @@
             "email": "zayna@example.com"
         }
     ],
-    "require": {}
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
 }

@@ -24,3 +24,15 @@ nav li a{
         margin-bottom: 10px;
     }
 }
+
+textarea{
+    width: 100%;
+}
+hr{
+    width:70%;
+    margin: auto;
+    margin-bottom: 60px;
+    margin-top: 60px;
+    height: 5px;
+    background-color: black;
+}

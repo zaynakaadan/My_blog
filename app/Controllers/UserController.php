@@ -36,10 +36,11 @@ class UserController extends Controller{
          header('Location: /login');
          exit;
       }
-
+      
       if (password_verify($_POST['password'], $user->password)) {    
          $_SESSION['auth'] = $user->email;
          $_SESSION['is_admin'] = $user->is_admin;
+         $_SESSION['user_id'] = $user->id;
 
          if ($user->is_admin == 0) {
             return header('Location: /posts');
@@ -103,13 +104,15 @@ class UserController extends Controller{
       
       unset($_POST['password_confirm']);
       $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
+      
+      $_POST['is_admin'] = 1;
       $result = $user->create($_POST);
       $user = (new User($this->getDB()))->getByemail($_POST['email']);
       
       if ($result) {
          $_SESSION['auth'] = $user->email;
          $_SESSION['is_admin'] = $user->is_admin;
+         $_SESSION['user_id'] = $user->id;
          return header('Location: /posts');
       }
       else {      

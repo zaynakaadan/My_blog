@@ -18,7 +18,7 @@ $router->show();
 $router->get( '/', 'App\Controllers\BlogController@home');
 $router->get( '/posts', 'App\Controllers\BlogController@posts');
 $router->get( '/posts/:id', 'App\Controllers\BlogController@showPost');
-$router->get( '/contact', 'App\Controllers\ContactController@contact');
+//$router->get( '/contact', 'App\Controllers\ContactController@contact');
 $router->post( '/contact', 'App\Controllers\ContactController@contactPost');
 
 

@@ -1,17 +1,15 @@
-<h1><?= $params['post']->name ?? 'Créer un nouvel article'?></h1>
+<h1><?= $params['post']->title ?? 'Créer un nouvel article'?></h1>
 
 <form action="<?= isset($params['post']) ? "/admin/posts/edit/{$params['post']->id}" : "/admin/posts/create" ?>" 
 method="POST">
+    <input type="hidden" name="user_id" value="<?=$params['user_id']?>">
    <div class="form-group mt-3">
-       <label class="mb-1" for="name">Titre de l'article</label>
-        <input type="text" class="form-control" name="name" id="name" value="<?= $params['post']
-        ->name ?? '' ?>">
+       <label class="mb-1" for="title">Titre de l'article</label>
+        <input type="text" class="form-control" name="title" id="title" value="<?=$params['post']->title ?? ''?>">
     </div>
     <div class="form-group mt-3">
         <label class="mb-1" for="content">Contenu de l'article</label>
-        <textarea name="content" id="content"  rows="8" class="form-control">
-            <?= $params['post']->content ?? '' ?>
-        </textarea>
+        <textarea name="content" id="content"  rows="8" class="form-control"><?=$params['post']->content ?? ''?></textarea>
     </div>
     <div class="form-group mt-3">
     <label for="tags">Tags de l'article</label>
@@ -23,7 +21,7 @@ method="POST">
             echo ($tag->id === $postTag->id) ? 'selected' : '';
         }
         ?>        
-        <?php endif ?>><?= $tag->name ?></option>
+        <?php endif ?>><?= $tag->title ?></option>
       <?php endforeach ?>  
     </select>
   </div>

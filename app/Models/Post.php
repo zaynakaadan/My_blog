@@ -20,11 +20,10 @@ class Post extends Model
 
    public function getButton(): string
    {
-      return <<<HTML
-      <a href="/posts/$this->id" class="btn btn-primary">Lire_l'article</a>
-HTML;
+      return '<a href="/posts/'.$this->id.'" class="btn btn-primary">Lire_le post</a>';
    }
-
+   
+   
    public function getTags()
    {
       return $this->query("
@@ -65,7 +64,12 @@ HTML;
     } 
     
 
+    public function allJoinUser(): array
+    {
+        return $this->query("SELECT posts.*, last_name, first_name FROM ($this->table) JOIN users ON user_id = users.id ORDER BY create_time DESC");        
+    }
 
+    
 
 
 }

@@ -11,6 +11,10 @@ class ComposerStaticInit3d8fe4b3cca74bbcf20974bd670b08bb
         array (
             'Router\\' => 7,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'D' => 
         array (
             'Database\\' => 9,
@@ -25,6 +29,10 @@ class ComposerStaticInit3d8fe4b3cca74bbcf20974bd670b08bb
         'Router\\' => 
         array (
             0 => __DIR__ . '/../..' . '/routes',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Database\\' => 
         array (

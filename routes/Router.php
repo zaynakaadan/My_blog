@@ -31,8 +31,7 @@ class Router {
            if ( $route->matches($this->url)){
              return  $route->execute();
              }
-        }
-        
+        }        
         throw new NotFoundException("La page demandée est introuvable.");
     }
 }

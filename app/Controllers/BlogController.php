@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Comment;
-
+use App\models\User;
 
 class BlogController extends Controller {
     public function home()
@@ -15,18 +15,21 @@ class BlogController extends Controller {
     public function posts()
     {
         $post = new Post($this->getDB());
-        $posts = $post->all();
+        //$posts = $post->all();
+        $posts = $post->allJoinUser();
         
         return $this->view('blog.posts', compact('posts'));
     }
 
     public function showPost(int $id)
-    {       
+    {     
         $post = (new Post($this->getDB()))->findById($id);
+        $user = (new User($this->getDB()))->getById($post->user_id);
         $comment = new Comment($this->getDB());
         $comments = $comment->getAllCommentsForPost($id);
+        $user_id = $_SESSION['user_id'];
        
-       return $this->view('blog.show_post', array('post' => $post, 'comments' => $comments));
+        return $this->view('blog.show_post', array('post' => $post, 'comments' => $comments,'user' => $user, 'user_id' => $user_id ));
     }
 
     public function tag(int $id) 
