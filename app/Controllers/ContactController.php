@@ -60,7 +60,7 @@ class ContactController extends Controller {
                 $mail->msgHTML($_POST["message"]);
 
                 $mail->addAddress('zaynakaadan@gmail.com');
-                $mail->addCC('kourtin_ismahane.math@yahoo.fr');
+                $mail->addCC('zk10-91@hotmail.com');
 
                 if ($mail->send()) {
 
