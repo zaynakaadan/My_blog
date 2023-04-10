@@ -31,11 +31,15 @@ class PostController extends Controller  {
 
         $tags = array_pop($_POST); 
         
-        foreach($_POST as $k => $p)
-        {
-            //$_POST[$k] = htmlspecialchars($_POST[$k]);
-            $_POST[$k] = strip_tags($_POST[$k]);            
+        foreach($_POST as $k => $p) {
+            if(isset($_POST[$k])) {
+                $_POST[$k] = htmlspecialchars($_POST[$k], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            } else {
+                $_POST[$k] = null;
+            }
         }
+        
+        
 
         $result = $post->create($_POST, $tags);
         if ($result) {
