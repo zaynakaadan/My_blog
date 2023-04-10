@@ -29,12 +29,12 @@
                </ul>
                <div class="d-flex">
                   <ul class="navbar-nav me-auto">
+                     <?php if (isset($_SESSION['auth']) && isset($_SESSION['is_admin'])): ?>
                      <?php
                         $auth = htmlspecialchars($_SESSION['auth']);
                         $is_admin = htmlspecialchars($_SESSION['is_admin']);
                      ?>
-                     <?php if (isset($auth)): ?>
-                        <?php if (isset($is_admin) && $is_admin == 1): ?>
+                        <?php if ($is_admin == 1): ?>
                            <li class="nav-item btn btn-outline-success me-2 py-0 li_f">
                               <a class="nav-link" href="/admin/posts">Administration</a>
                            </li>
