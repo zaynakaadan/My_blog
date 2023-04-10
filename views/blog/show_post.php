@@ -24,8 +24,8 @@
   </div> 
 <?php endforeach ?>
 
+<?php if($params['user_id'] != null){ ?>
 <div class="row">
-  
   <div class="col">  
     <form class="form-horizontal" action="" method="POST">
       <input type="hidden" name="post_id" value="<?=$params['post']->id ?>">
@@ -40,5 +40,6 @@
     </form>
   </div>
 </div>
+<?php } ?>
   
 <a href="/posts" class="btn btn-secondary">Retourner en arrière</a>
