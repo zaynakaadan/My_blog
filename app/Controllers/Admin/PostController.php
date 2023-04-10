@@ -2,25 +2,24 @@
 
 namespace App\Controllers\Admin;
 
-
 use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Session;
 use App\Controllers\Controller;
 
 class PostController extends Controller  {
     public function admin_posts()
-    {
-        
+    {  
       $this->isAdmin();
-      $posts = (new Post($this->getDB()))->all();
+      $posts = (new Post($this->getDB()))->allJoinUser();
       return $this->view('admin.post.admin_posts', compact('posts'));
     }
 
     public function create() 
     { 
-        $this->isAdmin();
-        $user_id = $_SESSION['user_id'];
+       $this->isAdmin();
+       $user_id = htmlspecialchars($_SESSION['user_id']);
        $tags = (new Tag($this->getDB()))->all(); 
        return $this->view('admin.post.add_post', compact('user_id', 'tags'));
     }
@@ -32,6 +31,11 @@ class PostController extends Controller  {
 
         $tags = array_pop($_POST); 
         
+        foreach($_POST as $k => $p)
+        {
+            //$_POST[$k] = htmlspecialchars($_POST[$k]);
+            $_POST[$k] = strip_tags($_POST[$k]);            
+        }
 
         $result = $post->create($_POST, $tags);
         if ($result) {
@@ -47,7 +51,12 @@ class PostController extends Controller  {
         $post = new Post($this->getDB());
 
         $tags = array_pop($_POST); 
-        
+
+        foreach($_POST as $k => $p)
+        {
+            //$_POST[$k] = htmlspecialchars($_POST[$k]);
+            $_POST[$k] = strip_tags($_POST[$k]); 
+        }
 
         $result = $post->update($id, $_POST, $tags);
         if ($result) {
@@ -69,7 +78,6 @@ class PostController extends Controller  {
             {
                 $comment->destroy($comment->id);
             }
-            
             return header('Location: /admin/posts');
         }
     }
@@ -80,7 +88,7 @@ class PostController extends Controller  {
         $post = (new Post($this->getDB()))->findById($id);
         $tags = (new Tag($this->getDB()))->all();
         $user_id = $_SESSION['user_id'];
-        return $this->view('admin.post.form', compact('user_id','post','tags'));
+        return $this->view('admin.post.add_post', compact('user_id','post','tags'));
      }
 
 }
