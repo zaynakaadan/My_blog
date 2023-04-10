@@ -15,6 +15,12 @@ class UserController extends Controller{
 
    public function loginPost()
    {  
+      foreach($_POST as $k => $p)
+        {
+            //$_POST[$k] = htmlspecialchars($_POST[$k]);
+            $_POST[$k] = strip_tags($_POST[$k]);            
+        }
+
       $validator = new Validator($_POST);
       $errors = $validator->validate([
          'email' => ['required', 'min:3'],
@@ -70,6 +76,12 @@ class UserController extends Controller{
 
    public function registerPost() 
    {
+      foreach($_POST as $k => $p)
+        {
+            //$_POST[$k] = htmlspecialchars($_POST[$k]);
+            $_POST[$k] = strip_tags($_POST[$k]);            
+        }
+        
       $validator = new Validator($_POST);
       $errors = $validator->validate([
          'gender' => ['required'],
