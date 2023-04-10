@@ -10,8 +10,9 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Titre</th>
-      <th scope="col">Publié le</th>
-      <th scope="col">Actions</th>
+      <th scope="col">Auteur</th>
+      <th scope="col">Publié le</th>      
+      <th scope="col">Actions</th>      
     </tr>
   </thead>
   <tbody>
@@ -19,6 +20,7 @@
         <tr>
            <th scope="row"><?= $post->id ?></th>
            <td><?= $post->title ?></td>
+           <td><?= $post->last_name." ".$post->first_name." (".$post->user_id.")" ?></td>
            <td><?= $post->getCreateTime() ?></td>
            <td>
             <a href="/admin/posts/edit/<?= $post->id ?>" class="btn btn-warning li_f">Modifier</a>
