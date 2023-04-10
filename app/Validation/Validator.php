@@ -54,9 +54,10 @@ class Validator {
     }
     private function min(string $name, string $value, string $rule)
     {
+
         preg_match_all('/(\d+)/', $rule, $matches);
         
-        $limit = (int) $matches[0][0];
+        $limit = (int) $matches[0];
 
         if(strlen($value)< $limit) {
             $this->errors[$name][] = "{$name} doit comprendre un minimum de {$limit} caractères";
