@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\models\User;
 use App\models\Contact;
-use PHPMailer\PHPMailer\S;
+
 use App\Validation\Validator;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -19,15 +19,21 @@ class ContactController extends Controller {
 
     public function contactPost() 
     {
+        foreach($_POST as $k => $p)
+        {
+            //$_POST[$k] = htmlspecialchars($_POST[$k]);
+            $_POST[$k] = strip_tags($_POST[$k]);            
+        }
+        
         $validator = new Validator($_POST);
-        $errors = $validator->validate([           
+        $errors = $validator->validate([
            'first_name'=>  ['required', 'min:3'],
            'last_name'=>  ['required', 'min:3'],
            'email'=>  ['required', 'min:3', 'mail'],
            'sujet'=>  ['required', 'min:3'],
            'message'=>  ['required', 'min:3']
         ]);
-
+        
         if ($errors) {
             $_SESSION['errors'] [] = $errors;
             header('Location: /');
@@ -47,27 +53,28 @@ class ContactController extends Controller {
                 $mail->isSMTP();
                 $mail->SMTPAuth = true;
                 // Informations personnelles
-                $mail->Host = "mail.yahoo.com";
-                $mail->Port = "465";
-                $mail->Username = "zaynakaadan@yahoo.com";
-                $mail->Password = "Zozo12345";
+                $mail->Host = "smtp.gmail.com";
+                $mail->Port = 587;
+                $mail->Username = "zaynakaadan@gmail.com";
+                $mail->Password = getenv("MAIL_PASSWD");
+                $mail->SMTPDebug = 1;
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                //$mail->SMTPSecure = 'ssl';
 
-                $mail->setFrom($_POST["email"], $_POST["first_name"]." ".$_POST["last_name"]);
+                $mail->setFrom("zaynakaadan@yahoo.com", $_POST["first_name"]." ".$_POST["last_name"]);
+                $mail->addReplyTo($_POST["email"]);
                 $mail->Subject = $_POST["sujet"];
-                $mail->isHTML(true);
+                $mail->isHTML(true);     
                 $mail->msgHTML($_POST["message"]);
 
                 $mail->addAddress('zaynakaadan@gmail.com');
                 $mail->addCC('zaynakaadan@yahoo.com');
 
-                if ($mail->send()) {
-
+                if ($mail->send()) {                    
                     echo 'Mail envoyé avec succèss.';
                     exit;
                 } else {
-            
+                    //print_r($mail->ErrorInfo);
                     echo 'Unable to send mail. Please try again.';
                     exit;
                 }
