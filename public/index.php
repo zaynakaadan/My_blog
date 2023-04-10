@@ -5,12 +5,17 @@ use App\Exceptions\NotFoundException;
 
 require '../vendor/autoload.php';
 
+// read .env
+//$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
+$dotenv->load();
+
 define('VIEWS', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR);
 define('SCRIPTS' , dirname($_SERVER['SCRIPT_NAME']) . DIRECTORY_SEPARATOR);
-define('DB_NAME', 'projet5');
+define('DB_NAME', getenv("DB_NAME"));
 define('DB_HOST', '127.0.0.1');
-define('DB_USER', 'root');
-define('DB_PWD', '');
+define('DB_USER', getenv("DB_USER"));
+define('DB_PWD', getenv("DB_PWD"));
 
 $router = new Router($_SERVER ['REDIRECT_URL']);
 $router->show();
