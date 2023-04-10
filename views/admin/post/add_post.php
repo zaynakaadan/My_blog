@@ -4,15 +4,15 @@
 method="POST">
     <input type="hidden" name="user_id" value="<?=$params['user_id']?>">
    <div class="form-group mt-3">
-       <label class="mb-1" for="title">Titre de l'article</label>
+       <label class="mb-1" for="title">Titre de le post</label>
         <input type="text" class="form-control" name="title" id="title" value="<?=$params['post']->title ?? ''?>">
     </div>
     <div class="form-group mt-3">
-        <label class="mb-1" for="content">Contenu de l'article</label>
+        <label class="mb-1" for="content">Contenu de le post</label>
         <textarea name="content" id="content"  rows="8" class="form-control"><?=$params['post']->content ?? ''?></textarea>
     </div>
     <div class="form-group mt-3">
-    <label for="tags">Tags de l'article</label>
+    <label for="tags">Tags de le post</label>
     <select multiple class="form-control" id="tags" name="tags[]">
       <?php foreach($params['tags'] as $tag) : ?>
         <option value="<?= $tag->id ?>"
