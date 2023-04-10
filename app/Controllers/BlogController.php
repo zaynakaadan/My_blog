@@ -27,7 +27,11 @@ class BlogController extends Controller {
         $user = (new User($this->getDB()))->getById($post->user_id);
         $comment = new Comment($this->getDB());
         $comments = $comment->getAllCommentsForPost($id);
-        $user_id = $_SESSION['user_id'];
+
+        if(isset($_SESSION['user_id']))
+            $user_id = $_SESSION['user_id'];
+        else
+            $user_id = null;
        
         return $this->view('blog.show_post', array('post' => $post, 'comments' => $comments,'user' => $user, 'user_id' => $user_id ));
     }
