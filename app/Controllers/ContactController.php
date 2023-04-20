@@ -71,15 +71,14 @@ class ContactController extends Controller {
                 $mail->addCC('zaynakaadan@yahoo.com');
 
                 if ($mail->send()) {                    
-                    echo 'Mail envoyé avec succèss.';
-                    exit;
+                    header('Location: /?success=true');
                 } else {
                     //print_r($mail->ErrorInfo);
                     echo 'Unable to send mail. Please try again.';
                     exit;
                 }
             
-                header('Location: /?success=true');
+               
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: ".$mail->ErrorInfo;
             }
