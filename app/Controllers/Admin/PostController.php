@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+
 use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Comment;
@@ -19,31 +20,32 @@ class PostController extends Controller  {
     public function create() 
     { 
        $this->isAdmin();
-       $user_id = htmlspecialchars($_SESSION['user_id']);
+       $user_id = (int)$_SESSION['user_id'];
+       if ($user_id) {
+        // error 401
+       }
        $tags = (new Tag($this->getDB()))->all(); 
        return $this->view('admin.post.add_post', compact('user_id', 'tags'));
     }
 
     public function createPost()
-    {
+    {        
+
         $this->isAdmin();
         $post = new Post($this->getDB());
 
         $tags = array_pop($_POST); 
-        
-        foreach($_POST as $k => $p) {
-            if(isset($_POST[$k])) {
-                $_POST[$k] = htmlspecialchars($_POST[$k], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            } else {
-                $_POST[$k] = null;
-            }
-        }
-        
-        
 
-        $result = $post->create($_POST, $tags);
+        $request = new \App\Request();
+        
+        $params = array_merge($request->getGet(), $request->getPost());
+        $params = $request->sanitize($params);
+        var_dump($params);
+       
+        $result = $post->create($params, $tags);
         if ($result) {
-            return header('Location: /admin/posts');
+             header('Location: /admin/posts');
+             exit;
         }
     }
 
@@ -62,7 +64,8 @@ class PostController extends Controller  {
             $_POST[$k] = strip_tags($_POST[$k]); 
         }
 
-        $result = $post->update($id, $_POST, $tags);
+        $result = $post->update($id, 
+         $tags);
         if ($result) {
             return header('Location: /admin/posts');
         }
