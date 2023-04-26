@@ -20,7 +20,11 @@ class PostController extends Controller  {
     public function create() 
     { 
        $this->isAdmin();
-       $user_id = (int)$_SESSION['user_id'];
+       $request = new \App\Request();    
+        $params = $request->getSession();        
+        $params = $request->sanitize($params);        
+
+        $user_id = $params['user_id'];
        if ($user_id) {
         // error 401
        }
