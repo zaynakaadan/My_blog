@@ -94,8 +94,7 @@ class PostController extends Controller  {
 
         $request = new \App\Request();    
         $params = $request->getSession();        
-        $params = $request->sanitize($params);
-        
+        $params = $request->sanitize($params);        
 
         $user_id = $params['user_id'];
         return $this->view('admin.post.add_post', compact('user_id','post','tags'));
