@@ -37,7 +37,7 @@ $router->get('/login', 'App\Controllers\UserController@login');
 $router->post('/login', 'App\Controllers\UserController@loginPost');
 $router->get('/logout', 'App\Controllers\UserController@logout');
 
-$router->get( '/admin/posts', 'App\Controllers\Admin\PostController@admin_posts');
+$router->get( '/admin/posts', 'App\Controllers\Admin\PostController@admin_posts', 'admin');
 $router->get( '/admin/posts/create', 'App\Controllers\Admin\PostController@create');
 $router->post( '/admin/posts/create', 'App\Controllers\Admin\PostController@createPost');
 $router->post( '/admin/posts/delete/:id', 'App\Controllers\Admin\PostController@destroy');

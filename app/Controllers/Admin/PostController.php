@@ -29,18 +29,17 @@ class PostController extends Controller  {
     }
 
     public function createPost()
-    {        
-
+    {            
         $this->isAdmin();
         $post = new Post($this->getDB());
 
-        $tags = array_pop($_POST); 
-
-        $request = new \App\Request();
-        
-        $params = array_merge($request->getGet(), $request->getPost());
+        // $tags = array_pop($_POST); 
+        $request = new \App\Request();    
+        $params = $request->getPost();        
         $params = $request->sanitize($params);
-        var_dump($params);
+        $tags = $params['tags'];
+        unset($params['tags']);
+        // var_dump($params);       
        
         $result = $post->create($params, $tags);
         if ($result) {
@@ -56,18 +55,16 @@ class PostController extends Controller  {
 
         $post = new Post($this->getDB());
 
-        $tags = array_pop($_POST); 
-
-        foreach($_POST as $k => $p)
-        {
-            //$_POST[$k] = htmlspecialchars($_POST[$k]);
-            $_POST[$k] = strip_tags($_POST[$k]); 
-        }
-
-        $result = $post->update($id, 
+        $request = new \App\Request();    
+        $params = $request->getPost();        
+        $params = $request->sanitize($params);
+        $tags = $params['tags'];
+        unset($params['tags']);
+        $result = $post->update($id, $params, 
          $tags);
         if ($result) {
-            return header('Location: /admin/posts');
+              return header('Location: /admin/posts');
+            
         }
     }
 
@@ -94,7 +91,13 @@ class PostController extends Controller  {
         $this->isAdmin();
         $post = (new Post($this->getDB()))->findById($id);
         $tags = (new Tag($this->getDB()))->all();
-        $user_id = $_SESSION['user_id'];
+
+        $request = new \App\Request();    
+        $params = $request->getSession();        
+        $params = $request->sanitize($params);
+        
+
+        $user_id = $params['user_id'];
         return $this->view('admin.post.add_post', compact('user_id','post','tags'));
      }
 
