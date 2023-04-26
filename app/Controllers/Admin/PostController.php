@@ -43,8 +43,8 @@ class PostController extends Controller  {
        
         $result = $post->create($params, $tags);
         if ($result) {
-             header('Location: /admin/posts');
-             exit;
+          return   header('Location: /admin/posts');
+            
         }
     }
 
