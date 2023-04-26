@@ -28,8 +28,12 @@ class BlogController extends Controller {
         $comment = new Comment($this->getDB());
         $comments = $comment->getAllCommentsForPost($id);
 
-        if(isset($_SESSION['user_id']))
-            $user_id = $_SESSION['user_id'];
+        $request = new \App\Request();    
+        $params = $request->getSession();        
+        $params = $request->sanitize($params);        
+
+        if(isset($params['user_id']))
+            $user_id = $params['user_id'];
         else
             $user_id = null;
        
