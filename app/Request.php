@@ -4,12 +4,10 @@ namespace App;
 
 class Request 
 {
-    private ?array $server = null;
     private ?array $params = [];
     
     public function __construct()
     {
-        $this->server = $_SERVER;
         if (session_status() === PHP_SESSION_NONE) {            
             session_start();
         }
@@ -19,11 +17,7 @@ class Request
         if (!is_array($safePost)) $safePost = [];
         $this->params = count($safePost) ? $safePost : $safeGet;        
     }
-
-    public function getServer(): array
-    {
-        return $this->server;
-    }
+    
 
     public function hasParam($key) {
         return isset($this->params[$key]);
