@@ -19,13 +19,13 @@ class ContactController extends Controller {
 
     public function contactPost() 
     {
-        foreach($_POST as $k => $p)
-        {
-            //$_POST[$k] = htmlspecialchars($_POST[$k]);
-            $_POST[$k] = strip_tags($_POST[$k]);            
-        }
+        $request = new \App\Request();    
+        $params = $request->getPost();   
+            
+        $params = $request->sanitize($params);
         
-        $validator = new Validator($_POST);
+        
+        $validator = new Validator($params);
         $errors = $validator->validate([
            'first_name'=>  ['required', 'min:3'],
            'last_name'=>  ['required', 'min:3'],
@@ -33,20 +33,22 @@ class ContactController extends Controller {
            'sujet'=>  ['required', 'min:3'],
            'message'=>  ['required', 'min:3']
         ]);
+       
         
         if ($errors) {
-            $_SESSION['errors'] [] = $errors;
+            $request = new \App\Request();    
+        $params = $request->getSession();        
+        $params = $request->sanitize($params);
+            $params['errors'] [] = $errors;
             header('Location: /');
             exit;
          }  else {             
             $contact = new Contact($this->getDB());   
-            
-            $result = $contact->create($_POST);
+            $result = $contact->create($params);
 
             try {
 
                 $mail = new PHPMailer();
-
                 $mail->CharSet = "UTF-8";
                 $mail->Encoding = 'base64';
 
@@ -61,11 +63,11 @@ class ContactController extends Controller {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 //$mail->SMTPSecure = 'ssl';
 
-                $mail->setFrom("zaynakaadan@yahoo.com", $_POST["first_name"]." ".$_POST["last_name"]);
-                $mail->addReplyTo($_POST["email"]);
-                $mail->Subject = $_POST["sujet"];
+                $mail->setFrom("zaynakaadan@yahoo.com", $params["first_name"]." ".$params["last_name"]);
+                $mail->addReplyTo($params["email"]);
+                $mail->Subject = $params["sujet"];
                 $mail->isHTML(true);     
-                $mail->msgHTML($_POST["message"]);
+                $mail->msgHTML($params["message"]);
 
                 $mail->addAddress('zaynakaadan@gmail.com');
                 $mail->addCC('zaynakaadan@yahoo.com');
