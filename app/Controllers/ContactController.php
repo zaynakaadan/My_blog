@@ -36,8 +36,8 @@ class ContactController extends Controller {
         if ($errors) {
             $request = new \App\Request(); 
             $session->set('errors', [$errors]);            
-            header('Location: /');
-            exit;
+             return header('Location: /');
+            
          }  else {             
             $contact = new Contact($this->getDB());   
             $result = $contact->create($params);
