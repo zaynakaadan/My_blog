@@ -73,7 +73,7 @@ class ContactController extends Controller {
                 } else {
                     //print_r($mail->ErrorInfo);
                     echo 'Unable to send mail. Please try again.';
-                    exit;
+                    return false;
                 }
             
                

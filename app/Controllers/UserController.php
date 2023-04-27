@@ -27,8 +27,8 @@ class UserController extends Controller{
       if ($errors) {
          // $session['errors'] [] = $errors;
          $session->set("errors", [$errors]);
-         header('Location: /login');
-         exit;
+          return header('Location: /login');
+         
       }
       
       $user = (new User($this->getDB()))->getByemail($params['email']);
