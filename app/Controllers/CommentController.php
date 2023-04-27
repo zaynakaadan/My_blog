@@ -11,9 +11,9 @@ class CommentController extends Controller {
   public function createcomment()
   {
     $request = new \App\Request();    
-    $params = $request->getPost();  
+    $params = $request->getParams();
  
-    $params = $request->sanitize($params);
+    
         
     $comment = new Comment($this->getDB());
     $result = $comment->create($params);
