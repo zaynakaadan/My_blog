@@ -15,48 +15,45 @@ class UserController extends Controller{
 
    public function loginPost()
    {  
-      foreach($_POST as $k => $p)
-        {
-            //$_POST[$k] = htmlspecialchars($_POST[$k]);
-            $_POST[$k] = strip_tags($_POST[$k]);            
-        }
-
-      $validator = new Validator($_POST);
+      $request = new \App\Request();   
+      $session = new \App\Session(); 
+      $params = $request->getParams();       
+      
+      $validator = new Validator($params);
       $errors = $validator->validate([
          'email' => ['required', 'min:3'],
          'password'=>  ['required'],
       ]);
-
       if ($errors) {
-         $_SESSION['errors'] [] = $errors;
+         // $session['errors'] [] = $errors;
+         $session->set("errors", [$errors]);
          header('Location: /login');
          exit;
       }
       
-      $user = (new User($this->getDB()))->getByemail($_POST['email']);
+      $user = (new User($this->getDB()))->getByemail($params['email']);
 
+      
       if(empty($user))
       {
          $errors['email'][] = "Aucun utilisateur n'est enregistré avec cette adresse email !";
-         $_SESSION['errors'] [] = $errors;
+         $session->set("errors", [$errors]);
          header('Location: /login');
          exit;
       }
       
-      if (password_verify($_POST['password'], $user->password)) {    
-         $_SESSION['auth'] = $user->email;
-         $_SESSION['is_admin'] = $user->is_admin;
-         $_SESSION['user_id'] = $user->id;
-
+      if (password_verify($params['password'], $user->password)) {    
+         $session->set("auth", $user->email);
+         $session->set("is_admin", $user->is_admin);
+         $session->set("user_id", $user->id);
          if ($user->is_admin == 0) {
             return header('Location: /posts');
-         }
-         else{
+         } else{
             return header('Location: /admin/posts?success=true');
          }
      } else {
          $errors['password'][] = "Aucun utilisateur n'est enregistré avec cette adresse email et ce mot de passe !";
-         $_SESSION['errors'] [] = $errors;      
+         $session->set("errors", [$errors]);
          return header('Location: /login');
      }
     
@@ -76,13 +73,11 @@ class UserController extends Controller{
 
    public function registerPost() 
    {
-      foreach($_POST as $k => $p)
-        {
-            //$_POST[$k] = htmlspecialchars($_POST[$k]);
-            $_POST[$k] = strip_tags($_POST[$k]);            
-        }
+      $request = new \App\Request();
+      $session = new \App\Session();
+      $params = $request->getParams();      
         
-      $validator = new Validator($_POST);
+      $validator = new Validator($params);
       $errors = $validator->validate([
          'gender' => ['required'],
          'first_name'=>  ['required', 'min:3'],
@@ -91,43 +86,38 @@ class UserController extends Controller{
          'password'=>  ['required']
       ]);
 
-      if ($_POST['password'] != $_POST['password_confirm'])
-      {
+      if ($params['password'] != $params['password_confirm']) {
          $errors['password_confirm'][] = "Le mot de passe de confirmation ne correspond pas à votre mot de passe !";
       }
 
       if ($errors) {
-         $_SESSION['errors'] [] = $errors;
+         $session->set("errors", [$errors]);
+         // $_SESSION['errors'] [] = $errors;
          header('Location: /register');
          exit;
       }
 
-      $user = (new User($this->getDB()))->getByemail($_POST['email']);
-
-      if(!empty($user))
-      {
+      $tmpUser = (new User($this->getDB()))->getByemail($params['email']);
+      if(!empty($tmpUser)) {
          $errors['email'][] = "Un utilisateur existe déjà avec cette adresse email !";
-         $_SESSION['errors'] [] = $errors;
+         $session->set("errors", [$errors]);
          header('Location: /register');
          exit;
       }
 
-      $user = new User($this->getDB());
-      
-      unset($_POST['password_confirm']);
-      $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-      
-      $_POST['is_admin'] = 1;
-      $result = $user->create($_POST);
-      $user = (new User($this->getDB()))->getByemail($_POST['email']);
+      $user = new User($this->getDB());      
+      unset($params['password_confirm']);
+      $params['password'] = password_hash($params['password'], PASSWORD_DEFAULT);      
+      $params['is_admin'] = 1;
+      $result = $user->create($params);
+      $user = (new User($this->getDB()))->getByemail($params['email']);
       
       if ($result) {
-         $_SESSION['auth'] = $user->email;
-         $_SESSION['is_admin'] = $user->is_admin;
-         $_SESSION['user_id'] = $user->id;
+         $session->set("auth", $user->email);
+         $session->set("is_admin", $user->is_admin);
+         $session->set("user_id", $user->id);         
          return header('Location: /posts');
-      }
-      else {      
+      } else {      
         return header('Location: /register');
      }
      

@@ -19,17 +19,13 @@ class PostController extends Controller  {
 
     public function create() 
     { 
-       $this->isAdmin();
-       $request = new \App\Request();    
-        $params = $request->getSession();        
-        $params = $request->sanitize($params);        
-
-        $user_id = $params['user_id'];
-       if ($user_id) {
-        // error 401
-       }
-       $tags = (new Tag($this->getDB()))->all(); 
-       return $this->view('admin.post.add_post', compact('user_id', 'tags'));
+      $this->isAdmin();
+      $request = new \App\Request();    
+      $session = new \App\Session();
+      $params = $request->getParams();                       
+      $user_id = $session->get('user_id');       
+      $tags = (new Tag($this->getDB()))->all(); 
+      return $this->view('admin.post.add_post', compact('user_id', 'tags'));
     }
 
     public function createPost()
@@ -39,8 +35,8 @@ class PostController extends Controller  {
 
         // $tags = array_pop($_POST); 
         $request = new \App\Request();    
-        $params = $request->getPost();        
-        $params = $request->sanitize($params);
+        
+      $params = $request->getParams();   
         $tags = $params['tags'];
         unset($params['tags']);
         // var_dump($params);       
@@ -60,8 +56,8 @@ class PostController extends Controller  {
         $post = new Post($this->getDB());
 
         $request = new \App\Request();    
-        $params = $request->getPost();        
-        $params = $request->sanitize($params);
+        
+      $params = $request->getParams();   
         $tags = $params['tags'];
         unset($params['tags']);
         $result = $post->update($id, $params, 
@@ -97,10 +93,10 @@ class PostController extends Controller  {
         $tags = (new Tag($this->getDB()))->all();
 
         $request = new \App\Request();    
-        $params = $request->getSession();        
-        $params = $request->sanitize($params);        
+        $session = new \App\Session();
+      $params = $request->getParams();           
 
-        $user_id = $params['user_id'];
+        $user_id = $session->get('user_id');
         return $this->view('admin.post.add_post', compact('user_id','post','tags'));
      }
 

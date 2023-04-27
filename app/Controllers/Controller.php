@@ -32,13 +32,9 @@ abstract class Controller {
 
     protected function isAdmin()
     {
-        $request = new \App\Request();    
-        $params = $request->getSession();        
-        $params = $request->sanitize($params);
-
-        $auth = htmlspecialchars($params['auth']);
-        $is_admin = htmlspecialchars($params['is_admin']);
-
+        $request = new \App\Session();            
+        $auth = $request->get('auth');
+        $is_admin = $request->get('is_admin');        
         if (isset($auth) && $is_admin == 1) {
             return true;
         } else {

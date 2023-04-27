@@ -20,11 +20,9 @@ class ContactController extends Controller {
     public function contactPost() 
     {
         $request = new \App\Request();    
-        $params = $request->getPost();   
-            
-        $params = $request->sanitize($params);
-        
-        
+        $session = new \App\Session();
+        $params = $request->getParams();   
+                    
         $validator = new Validator($params);
         $errors = $validator->validate([
            'first_name'=>  ['required', 'min:3'],
@@ -36,10 +34,8 @@ class ContactController extends Controller {
        
         
         if ($errors) {
-            $request = new \App\Request();    
-        $params = $request->getSession();        
-        $params = $request->sanitize($params);
-            $params['errors'] [] = $errors;
+            $request = new \App\Request(); 
+            $session->set('errors', [$errors]);            
             header('Location: /');
             exit;
          }  else {             
