@@ -11,7 +11,7 @@ $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
 $dotenv->load();
 
 define('VIEWS', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR);
-define('SCRIPTS', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+define('SCRIPTS', dirname($_SERVER ['SCRIPT_NAME']) . DIRECTORY_SEPARATOR);
 define('DB_NAME', getenv("DB_NAME"));
 define('DB_HOST', '127.0.0.1');
 define('DB_USER', getenv("DB_USER"));
